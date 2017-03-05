@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 
@@ -75,6 +74,9 @@ namespace SocksCore.Primitives
     }
     public static class SocketExtensions
     {
+
+        public delegate void ReadUntillSpecifiedByteReaded(Socket readFrom, out byte[] readTo, byte readToByte, int limit);
+
         private const int DefaultSocketsOperationsTimeout = 10000;
 
         private struct SocketTimeouts
@@ -96,6 +98,11 @@ namespace SocksCore.Primitives
             return olValues;
         }
 
+        public static byte[] ReadComplete(this Socket readFromSocket, int bytesCount)
+        {
+            return readFromSocket.ReadComplete(bytesCount, SocketFlags.None);
+        }
+
         /// <summary>
         /// This extension method guarantee reading from a socket needed amount of data bytes.
         /// If Not enought data to reading untill reading timeout, throwing SocketException.
@@ -105,22 +112,24 @@ namespace SocksCore.Primitives
         /// <param name="flagsToRead">Can peek for example.</param>
         /// <param name="timeout">Time period in milliseconds, what you ready to wait for data reading.</param>
         /// <returns></returns>
-        public static byte[] ReadComplete(this Socket peekFromSocket, int bytesCount, SocketFlags flagsToRead = SocketFlags.None, int timeout = DefaultSocketsOperationsTimeout)
+        private static byte[] ReadComplete(this Socket peekFromSocket, int bytesCount, SocketFlags flagsToRead = SocketFlags.None)
         {
             var result = new byte[bytesCount];
-            var oldTimeout = peekFromSocket.ReceiveTimeout;
-            peekFromSocket.ReceiveTimeout = timeout;
+
             var temporarybuff = new byte[bytesCount];
             var alreadyReadedBytesCount = 0;
             do
             {
-                var thisSessionReadedBytes = peekFromSocket.Receive(temporarybuff, bytesCount - alreadyReadedBytesCount, SocketFlags.Peek);
+                var thisSessionReadedBytes = peekFromSocket.Receive(temporarybuff, bytesCount - alreadyReadedBytesCount, flagsToRead);
+                if (thisSessionReadedBytes < 1)
+                    throw new SocketException();
                 Array.Copy(temporarybuff, 0, result, alreadyReadedBytesCount, thisSessionReadedBytes);
                 alreadyReadedBytesCount += thisSessionReadedBytes;
             } while (alreadyReadedBytesCount < bytesCount);
-            peekFromSocket.ReceiveTimeout = oldTimeout;
             return result;
         }
+
+
 
         /// <summary>
         /// Peek <see cref="bytesCount"/> bytes from a socket with <see cref="timeout"/> timeout.
@@ -129,37 +138,12 @@ namespace SocksCore.Primitives
         /// <param name="bytesCount">Bytes count to peek from socket</param>
         /// <param name="timeout">Timeout in milliseconds. (10000 default)</param>
         /// <returns>Bytes picked from socket.</returns>
-        public static byte[] PeekBytes(this Socket socketToPeek, int bytesCount, int timeout = DefaultSocketsOperationsTimeout)
+        public static byte[] PeekBytes(this Socket socketToPeek, int bytesCount)
         {
-            return socketToPeek.ReadComplete(bytesCount, SocketFlags.Peek, timeout);
+            return socketToPeek.ReadComplete(bytesCount, SocketFlags.Peek);
         }
 
-        /// <summary>
-        /// Read data byte-by-byte from socket, untill read specified byte.
-        /// </summary>
-        /// <param name="readFromSocket">Socket to read from.</param>
-        /// <param name="readTo">Read 'until' byte.</param>
-        /// <param name="readLimit">limitations for reading.</param>
-        /// <param name="timeout">Specified timeout for readin operation.</param>
-        /// <returns>Array of pre-readed bytes</returns>
-        public static byte[] ReadUntil(this Socket readFromSocket, byte readTo, int readLimit = 1024, int timeout = DefaultSocketsOperationsTimeout)
-        {
-            var readedBytes = new byte[1];
-            var totalReaded = 0;
-            byte readedByte;
-            var readedBytesAccumulator = new List<byte>();
-            do
-            {
-                var readedPortion = readFromSocket.Receive(readedBytes, 0, 1, SocketFlags.None);
-                if (readedPortion <= 0)
-                    break;
-                readedByte = readedBytes[0];
-                totalReaded++;
-                readedBytesAccumulator.Add(readedByte);
 
-            } while (totalReaded < readLimit || readedByte != readTo);
-            return readedBytesAccumulator.ToArray();
-        }
 
         public static void SetupSocketTimeouts(this Socket socket, SocketSettings settings)
         {

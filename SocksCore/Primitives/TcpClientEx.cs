@@ -1,9 +1,8 @@
-﻿using SocksCore.Primitives;
-using System;
+﻿using System;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
-namespace CustomServer.Connections.Primitives
+namespace SocksCore.Primitives
 {
 
 
@@ -16,7 +15,7 @@ namespace CustomServer.Connections.Primitives
 
     public class TcpClientEx : TcpClient
     {
-        public const int BufferSize = 32 * 1024; // 32KB
+        private const int BufferSize = 32 * 1024; // 32KB
 
         private bool disconected;
         private byte[] ReadBuffer = new byte[BufferSize];

@@ -3,5 +3,8 @@
     public interface IBytePicker
     {
         byte[] PeekBytes(int bytesCount);
+        
     }
+
+     
 }

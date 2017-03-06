@@ -75,7 +75,7 @@ namespace SocksCore.Primitives
     public static class SocketExtensions
     {
 
-        public delegate void ReadUntillSpecifiedByteReaded(Socket readFrom, out byte[] readTo, byte readToByte, int limit);
+        public delegate void ReadUntillSpecifiedByteReaded(Socket readFrom, out byte[] readTo, byte readToByte);
 
         private const int DefaultSocketsOperationsTimeout = 10000;
 
@@ -110,7 +110,6 @@ namespace SocksCore.Primitives
         /// <param name="peekFromSocket">Socket to read from.</param>
         /// <param name="bytesCount">Bytes count that you wanna read</param>
         /// <param name="flagsToRead">Can peek for example.</param>
-        /// <param name="timeout">Time period in milliseconds, what you ready to wait for data reading.</param>
         /// <returns></returns>
         private static byte[] ReadComplete(this Socket peekFromSocket, int bytesCount, SocketFlags flagsToRead = SocketFlags.None)
         {
@@ -136,12 +135,12 @@ namespace SocksCore.Primitives
         /// </summary>
         /// <param name="socketToPeek">Socket to peek from</param>
         /// <param name="bytesCount">Bytes count to peek from socket</param>
-        /// <param name="timeout">Timeout in milliseconds. (10000 default)</param>
         /// <returns>Bytes picked from socket.</returns>
         public static byte[] PeekBytes(this Socket socketToPeek, int bytesCount)
         {
             return socketToPeek.ReadComplete(bytesCount, SocketFlags.Peek);
         }
+
 
 
 

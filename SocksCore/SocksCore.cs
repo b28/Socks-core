@@ -100,12 +100,14 @@ namespace SocksCore
 
     }
 
-    public interface ISocksClient : IBytePicker
+    public interface ISocksClient : IBytePicker, IByteReceiver
     {
-
         void Close();
-
-
         void Send(byte[] errorArray);
+    }
+
+    public interface IByteReceiver
+    {
+        byte[] Receive(int bytesCount);
     }
 }

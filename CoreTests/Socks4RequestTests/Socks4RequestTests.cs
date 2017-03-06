@@ -53,25 +53,18 @@ namespace CoreTests.Socks4RequestTests
         [TestMethod]
         public void AssertThatThisIsNoUserNameSocks4Request()
         {
-
-
             var request = Socks4RequestExamples.GetObjectToTestWithdummyUserName;
 
             Assert.IsTrue(request.Header.ProtocolVersion == (int)SocksVersion.Socks4);
             Assert.IsFalse(string.IsNullOrEmpty(request.UserName));
-
-
         }
 
         [TestMethod]
         public void AssertIfPortFromRequestNotEqual80IpParsingError()
         {
             var request = Socks4RequestExamples.GetObjectToTestWithdummyUserName;
-            //MessageBox.Show(request.IpAddress.ToString()+ Environment.NewLine + Socks4RequestExamples.IpForParsing);
 
             Assert.IsTrue(string.CompareOrdinal(request.IpAddress.ToString(), Socks4RequestExamples.IpForParsing) == 0);
-
-            //Assert.IsFalse(request.Header.IpAddress != BitConverter.GetBytes());
             Assert.IsFalse(request.Header.Port != 80);
         }
     }

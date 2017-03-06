@@ -48,12 +48,12 @@
     <Compile Include="Abstraction\IClientConnectionsHandler.cs" />
     <Compile Include="Abstraction\ISocksClientCore.cs" />
     <Compile Include="Abstraction\ISocksClientHandler.cs" />
-    <Compile Include="IBytePicker.cs" />
+    <Compile Include="Abstraction\IBytePicker.cs" />
     <Compile Include="SocksHandlers\Socks4\Socks4ClientHandler.cs" />
     <Compile Include="SocksHandlers\Socks4\Socks4Request.cs" />
     <Compile Include="SocksHandlers\Socks4\Socks4RequestHeader.cs" />
     <Compile Include="SocksHandlers\Socks4\Socks4RequestType.cs" />
-    <Compile Include="SocksHandlers\Socks5ClientHandler.cs" />
+    <Compile Include="SocksHandlers\Socks5\Socks5ClientHandler.cs" />
     <Compile Include="Abstraction\SocksClientHandler.cs" />
     <Compile Include="Primitives\SocketExtensions.cs" />
     <Compile Include="Primitives\TcpClientEx.cs" />

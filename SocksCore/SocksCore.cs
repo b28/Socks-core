@@ -58,9 +58,9 @@ namespace SocksCore
 
         }
 
-        private static SocksVersion FromRequest(IBytePicker picker)
+        private static SocksVersion FromRequest(IBytePeeker peeker)
         {
-            var readedVersion = picker.PeekBytes(1);
+            var readedVersion = peeker.PeekBytes(1);
 
             return (SocksVersion)readedVersion.First();
         }
@@ -100,7 +100,7 @@ namespace SocksCore
 
     }
 
-    public interface ISocksClient : IBytePicker, IByteReceiver
+    public interface ISocksClient : IBytePeeker, IByteReceiver
     {
         void Close();
         void Send(byte[] errorArray);

@@ -1,10 +1,10 @@
 ﻿namespace SocksCore
 {
-    public interface IBytePicker
+    public interface IBytePeeker
     {
         byte[] PeekBytes(int bytesCount);
-        
     }
 
-     
+
+
 }

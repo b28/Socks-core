@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SocksCore.Primitives;
+using System;
 using System.Linq;
 
 namespace SocksCore
@@ -98,16 +99,5 @@ namespace SocksCore
 
         #endregion
 
-    }
-
-    public interface ISocksClient : IBytePeeker, IByteReceiver
-    {
-        void Close();
-        void Send(byte[] errorArray);
-    }
-
-    public interface IByteReceiver
-    {
-        byte[] Receive(int bytesCount);
     }
 }

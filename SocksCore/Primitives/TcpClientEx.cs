@@ -17,7 +17,7 @@ namespace SocksCore.Primitives
     {
         private const int BufferSize = 32 * 1024; // 32KB
 
-        
+
         private byte[] ReadBuffer = new byte[BufferSize];
 
 

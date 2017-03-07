@@ -59,7 +59,7 @@ namespace SocksCore.Primitives
         {
             get
             {
-                var timeOut = 1000 * 60 * 30;
+                const int timeOut = 1000 * 60 * 30;
                 return new SocketSettings()
                 {
                     NetworkClientReceiveTimeout = timeOut,

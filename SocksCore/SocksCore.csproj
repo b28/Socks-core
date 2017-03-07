@@ -50,6 +50,8 @@
     <Compile Include="Abstraction\ISocksClientCore.cs" />
     <Compile Include="Abstraction\ISocksClientHandler.cs" />
     <Compile Include="Abstraction\IBytePeeker.cs" />
+    <Compile Include="IByteReceiver.cs" />
+    <Compile Include="Primitives\ISocksClient.cs" />
     <Compile Include="SocksHandlers\Socks4\Socks4ClientHandler.cs" />
     <Compile Include="SocksHandlers\Socks4\Socks4Request.cs" />
     <Compile Include="SocksHandlers\Socks4\Socks4RequestHeader.cs" />

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SocksCore.Primitives;
+using System;
 
 namespace SocksCore
 {

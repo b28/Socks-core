@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using SocksCore;
+using SocksCore.Primitives;
 
 namespace CoreTests
 {

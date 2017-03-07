@@ -1,4 +1,6 @@
-﻿namespace SocksCore.SocksHandlers.Socks4
+﻿using SocksCore.Primitives;
+
+namespace SocksCore.SocksHandlers.Socks4
 {
     public abstract class Socks4ClientHandler : SocksClientHandler
     {

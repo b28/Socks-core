@@ -15,7 +15,7 @@ namespace SocksCore
         */
 
         private const byte DefaultSocksError = (byte)Socks4ErrorCodes.Error;
-        private enum Socks4ErrorCodes
+        public enum Socks4ErrorCodes : uint
         {
             Success = 0x5a,
             Error = 0x5b,

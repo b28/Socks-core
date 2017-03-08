@@ -12,6 +12,7 @@ namespace SocksCore.SocksHandlers.Socks4
         public Socks4RequestHeader Header { get; private set; }
         public string UserName { get; private set; }
         public IPAddress IpAddress => new IPAddress(BitConverter.GetBytes(Header.IpAddress));
+        public ushort Port => Header.Port;
 
         private static string ReadUserName(IByteReceiver clientToHandle)
         {

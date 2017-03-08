@@ -13,7 +13,7 @@ namespace SocksCore.Primitives
 
     }
 
-    public class TcpClientEx : TcpClient
+    public class TcpClientEx : TcpClient, ISocksClient
     {
         private const int BufferSize = 32 * 1024; // 32KB
 
@@ -26,16 +26,8 @@ namespace SocksCore.Primitives
 
         public event EventHandler Disconnected;
         public event EventHandler<DataStruct> DataReceived;
-        public TcpClientEx(bool setKeepAlive)
-        {
-            if (setKeepAlive)
-            {
-                Client.SetupSocketTimeouts(SocketSettings.DefaultHigh);
-            }
-        }
 
-
-        public void AttachSocket(Socket socketToAttach)
+        public void AttachToSocket(Socket socketToAttach)
         {
             if (socketToAttach == null)
                 throw new ArgumentNullException($"{nameof(socketToAttach)} is null");
@@ -88,9 +80,22 @@ namespace SocksCore.Primitives
 
         protected virtual void DoOnDisconnected()
         {
-
             Disconnected?.Invoke(this, EventArgs.Empty);
+        }
 
+        public byte[] PeekBytes(int bytesCount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public byte[] Receive(int bytesCount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Send(byte[] errorArray)
+        {
+            throw new NotImplementedException();
         }
     }
 }

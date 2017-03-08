@@ -45,19 +45,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstraction\ClientConnectionHandler.cs" />
+    <Compile Include="Abstraction\ConnectionEstablisherException.cs" />
     <Compile Include="Abstraction\IClientConnectionsHandler.cs" />
-    <Compile Include="Abstraction\IClientTimeoutChanger.cs" />
     <Compile Include="Abstraction\ISocksClientCore.cs" />
     <Compile Include="Abstraction\ISocksClientHandler.cs" />
     <Compile Include="Abstraction\IBytePeeker.cs" />
+    <Compile Include="Abstraction\ISocksConnectionEstablisher.cs" />
+    <Compile Include="Abstraction\SocksConnectionEstablisherBase.cs" />
+    <Compile Include="Abstraction\SocksException.cs" />
     <Compile Include="IByteReceiver.cs" />
     <Compile Include="Primitives\ISocksClient.cs" />
-    <Compile Include="SocksHandlers\Socks4\Socks4ClientHandler.cs" />
+    <Compile Include="Primitives\ISocksConnection.cs" />
+    <Compile Include="Abstraction\ISocketHandlerSettings.cs" />
+    <Compile Include="SocksHandlers\Socks4\ConnectionEstablisher.cs" />
+    <Compile Include="SocksHandlers\Socks4\Socks4ClientHandlerBase.cs" />
     <Compile Include="SocksHandlers\Socks4\Socks4Request.cs" />
     <Compile Include="SocksHandlers\Socks4\Socks4RequestHeader.cs" />
     <Compile Include="SocksHandlers\Socks4\Socks4RequestType.cs" />
     <Compile Include="SocksHandlers\Socks5\Socks5ClientHandler.cs" />
-    <Compile Include="Abstraction\SocksClientHandler.cs" />
+    <Compile Include="Abstraction\SocksClientHandlerBase.cs" />
     <Compile Include="Primitives\SocketExtensions.cs" />
     <Compile Include="Primitives\TcpClientEx.cs" />
     <Compile Include="SocksCore.cs" />

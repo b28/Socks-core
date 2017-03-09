@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SocksCore.Utils.Log
 {
-    public sealed class Logger : ICanLog, ILogger
+    public sealed class Logger : ILogger
     {
         public const LogLevel DefaultLogLevel = LogLevel.Error;
 
@@ -13,11 +13,13 @@ namespace SocksCore.Utils.Log
 
         public enum LogLevel : byte
         {
-            Debug,
+            Fatal,
             Error,
             Warning,
             Notice,
-            Trace
+            Trace,
+            Debug,
+            None
         }
 
         public Logger(string fileName)
@@ -51,10 +53,14 @@ namespace SocksCore.Utils.Log
         {
             LogMsg(msg, LogLevel.Trace);
         }
+        public void Fatal(string msg)
+        {
+            LogMsg(msg, LogLevel.Fatal);
+        }
         #endregion
         public void LogMsg(string msg, LogLevel logLevel = DefaultLogLevel)
         {
-            if (CurrentLogLevel < logLevel)
+            if (CurrentLogLevel >= logLevel)
                 return;
             lock (locker)
             {
@@ -65,6 +71,8 @@ namespace SocksCore.Utils.Log
                 }
             }
         }
+
+
     }
 
 }

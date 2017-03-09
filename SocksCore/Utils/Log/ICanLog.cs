@@ -2,6 +2,7 @@
 {
     public interface ICanLog
     {
+        void Fatal(string msg);
         void Debug(string msg);
         void Error(string msg);
         void Notice(string msg);

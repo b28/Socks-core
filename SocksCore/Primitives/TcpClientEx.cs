@@ -27,6 +27,14 @@ namespace SocksCore.Primitives
         public event EventHandler Disconnected;
         public event EventHandler<DataStruct> DataReceived;
 
+        public TcpClientEx()
+        {
+
+        }
+        public TcpClientEx(Socket attachTo)
+        {
+            AttachToSocket(attachTo);
+        }
         public void AttachToSocket(Socket socketToAttach)
         {
             if (socketToAttach == null)

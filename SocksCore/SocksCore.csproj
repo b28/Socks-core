@@ -50,7 +50,9 @@
     <Compile Include="Abstraction\ISocksClientCore.cs" />
     <Compile Include="Abstraction\ISocksClientHandler.cs" />
     <Compile Include="Abstraction\IBytePeeker.cs" />
+    <Compile Include="Abstraction\ISocksClientSource.cs" />
     <Compile Include="Abstraction\ISocksConnectionEstablisher.cs" />
+    <Compile Include="Abstraction\SocksClientSourceFromListener.cs" />
     <Compile Include="Abstraction\SocksConnectionEstablisherBase.cs" />
     <Compile Include="Abstraction\SocksException.cs" />
     <Compile Include="Abstraction\IByteReceiver.cs" />

@@ -8,8 +8,8 @@ namespace SocksCore.Utils.Log
     {
         public const LogLevel DefaultLogLevel = LogLevel.Error;
 
-        private object locker = new object();
-        private string logFileName;
+        private readonly object locker = new object();
+        private readonly string logFileName;
 
         public enum LogLevel : byte
         {

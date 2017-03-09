@@ -53,7 +53,7 @@
     <Compile Include="Abstraction\ISocksConnectionEstablisher.cs" />
     <Compile Include="Abstraction\SocksConnectionEstablisherBase.cs" />
     <Compile Include="Abstraction\SocksException.cs" />
-    <Compile Include="IByteReceiver.cs" />
+    <Compile Include="Abstraction\IByteReceiver.cs" />
     <Compile Include="Primitives\ISocksClient.cs" />
     <Compile Include="Primitives\ISocksConnection.cs" />
     <Compile Include="Abstraction\ISocketHandlerSettings.cs" />

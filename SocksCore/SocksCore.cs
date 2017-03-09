@@ -31,12 +31,6 @@ namespace SocksCore
         {
             var socksVersionFromClientRequest = SocksVersion.Unknown;
 
-            //var clientEndPoint = client.RemoteEndPoint as IPEndPoint;
-            //if (clientEndPoint != null)
-            //    OnClientConnected($"CC:{clientEndPoint.Address}");
-
-            //socksVersionFromClientRequest = FromRequest(_picker);
-            //OnClientRequestReceived($"CRR:{socksVersionFromClientRequest}");
             socksVersionFromClientRequest = FromRequest(client);
 
 
@@ -85,15 +79,15 @@ namespace SocksCore
 
         #region Events invokators
 
-        //protected virtual void OnClientConnected(string e)
-        //{
-        //    ClientConnected?.Invoke(this, e);
-        //}
+        private void OnClientConnected(string e)
+        {
+            ClientConnected?.Invoke(this, e);
+        }
 
-        //protected virtual void OnClientRequestReceived(string e)
-        //{
-        //    ClientRequestReceived?.Invoke(this, e);
-        //}
+        private void OnClientRequestReceived(string e)
+        {
+            ClientRequestReceived?.Invoke(this, e);
+        }
 
 
 

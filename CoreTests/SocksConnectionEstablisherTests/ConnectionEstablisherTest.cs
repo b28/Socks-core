@@ -38,7 +38,6 @@ namespace CoreTests
             {
                 exceptionHappened = true;
             }
-
             Assert.IsTrue(exceptionHappened);
         }
     }

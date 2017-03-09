@@ -68,6 +68,9 @@
     <Compile Include="Primitives\TcpClientEx.cs" />
     <Compile Include="SocksCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\Log\ICanLog.cs" />
+    <Compile Include="Utils\Log\ILogger.cs" />
+    <Compile Include="Utils\Log\Logger.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -13,7 +13,7 @@ namespace SocksCore.Utils.Log
 
         public enum LogLevel : byte
         {
-            Fatal,
+            Fatal = 0,
             Error,
             Warning,
             Notice,
@@ -31,43 +31,50 @@ namespace SocksCore.Utils.Log
         public LogLevel CurrentLogLevel { get; set; } = DefaultLogLevel;
 
         #region Log Methods
-        public void Notice(string msg)
+        public void Fatal(string msg)
         {
-            LogMsg(msg, LogLevel.Notice);
+            LogMsg($"Fatal: {msg}", Logger.LogLevel.Fatal);
         }
 
-        public void Warning(string msg)
+        public void Debug(string msg)
         {
-            LogMsg(msg, LogLevel.Warning);
+            LogMsg($"Debug: {msg}", Logger.LogLevel.Debug);
         }
 
         public void Error(string msg)
         {
-            LogMsg(msg, LogLevel.Error);
+            LogMsg($"Error: {msg}", Logger.LogLevel.Error);
         }
-        public void Debug(string msg)
+
+        public void Notice(string msg)
         {
-            LogMsg(msg, LogLevel.Debug);
+            LogMsg($"Notice: {msg}", Logger.LogLevel.Notice);
         }
+
         public void Trace(string msg)
         {
-            LogMsg(msg, LogLevel.Trace);
+            LogMsg($"Trace: {msg}", Logger.LogLevel.Trace);
         }
-        public void Fatal(string msg)
+
+        public void Warning(string msg)
         {
-            LogMsg(msg, LogLevel.Fatal);
+            LogMsg($"Warning: {msg}", Logger.LogLevel.Warning);
         }
         #endregion
         public void LogMsg(string msg, LogLevel logLevel = DefaultLogLevel)
         {
-            if (CurrentLogLevel >= logLevel)
+
+            Console.WriteLine(msg);
+
+
+            if ((int)CurrentLogLevel < (int)logLevel)
                 return;
             lock (locker)
             {
                 using (FileStream file = new FileStream(logFileName, FileMode.Append, FileAccess.Write, FileShare.Read))
                 using (StreamWriter writer = new StreamWriter(file, Encoding.Unicode))
                 {
-                    writer.Write(msg + Environment.NewLine);
+                    writer.Write($"{DateTime.Now.ToString("O")} {msg}{Environment.NewLine}");
                 }
             }
         }

@@ -11,6 +11,6 @@ namespace SocksCore.Primitives
         Socket Client { get; }
         void Connect(IPEndPoint connectTo);
         void Close();
-        void Send(byte[] errorArray);
+        void Send(byte[] arrayToSend);
     }
 }

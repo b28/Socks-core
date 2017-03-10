@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace SocksCore
 {
-    public sealed class SocksCore : IClientConnectionsHandler
+    public sealed class UniversalSocksCore : IClientConnectionsHandler
     {
 
         /*
@@ -60,7 +60,7 @@ namespace SocksCore
             return (SocksVersion)readedVersion.First();
         }
 
-        public SocksCore(ISocksClientHandler socks4ClientHandler, ISocksClientHandler socks5ClientHandler)
+        public UniversalSocksCore(ISocksClientHandler socks4ClientHandler, ISocksClientHandler socks5ClientHandler)
         {
             this.socks4ClientHandler = socks4ClientHandler;
             this.socks5ClientHandler = socks5ClientHandler;

@@ -30,7 +30,7 @@ namespace SocksCore.SocksHandlers.Socks4
                 catch (SocketException e)
                 {
                     logger.Error($"Connection to {socks4Request.IpAddress} on port {socks4Request.Port} thrown an exception:{Environment.NewLine}{e.Message}");
-                    CloseConnectionAndSendError(clientToHandle, (uint)SocksCore.Socks4ErrorCodes.Error);
+                    CloseConnectionAndSendError(clientToHandle, (uint)UniversalSocksCore.Socks4ErrorCodes.Error);
                     return;
                 }
 
@@ -41,7 +41,7 @@ namespace SocksCore.SocksHandlers.Socks4
                 throw new NotImplementedException();
                 // TODO: add port binding functionality
             }
-            CloseConnectionAndSendError(clientToHandle, (uint)SocksCore.Socks4ErrorCodes.Error);
+            CloseConnectionAndSendError(clientToHandle, (uint)UniversalSocksCore.Socks4ErrorCodes.Error);
 
         }
 

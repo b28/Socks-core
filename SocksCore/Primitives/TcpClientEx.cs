@@ -93,17 +93,17 @@ namespace SocksCore.Primitives
 
         public byte[] PeekBytes(int bytesCount)
         {
-            throw new NotImplementedException();
+            return Client.PeekBytes(bytesCount);
         }
 
         public byte[] Receive(int bytesCount)
         {
-            throw new NotImplementedException();
+            return Client.ReadComplete(bytesCount);
         }
 
-        public void Send(byte[] errorArray)
+        public void Send(byte[] arrayToSend)
         {
-            throw new NotImplementedException();
+            Client.Send(arrayToSend);
         }
     }
 }

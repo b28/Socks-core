@@ -11,18 +11,22 @@ namespace SocksCore
     {
 
         private ICanLog logger;
-        private TcpListener listener;
-        public SocksClientSourceFromListener(IPEndPoint listenEndPoint, ICanLog log)
+
+        public SocksClientSourceFromListener(ICanLog log)
         {
             logger = log;
-            listener = new TcpListener(listenEndPoint);
+
+
         }
 
-        public void BeginAcceptClients()
+        public void BeginAcceptClients(IPEndPoint listenTo)
         {
-
+            logger.Trace($"Trying to start listen for new clients on: {listenTo.Address}  port:{listenTo.Port}");
             Task.Run(async () =>
             {
+
+                var listener = new TcpListener(listenTo);
+                listener.Start();
                 while (true)
                 {
                     try
@@ -34,8 +38,10 @@ namespace SocksCore
                         //s.Client.SetupSocketTimeouts(new SocketSettings { NetworkClientKeepAliveInterval = 1000, NetworkClientKeepAliveTimeout = 1000 });
 
                         var remoteEndPoint = s.Client.RemoteEndPoint as IPEndPoint;
-                        if (remoteEndPoint != null) logger.Trace($"Accepted a new client from {remoteEndPoint.Address}");
-                        logger.Notice($"Client connection accepted from {remoteEndPoint?.Address}:{remoteEndPoint?.Port}");
+                        if (remoteEndPoint != null)
+                            logger.Trace($"Accepted a new client from {remoteEndPoint.Address}");
+                        logger.Notice(
+                            $"Client connection accepted from {remoteEndPoint?.Address}:{remoteEndPoint?.Port}");
 
                         OnNewSocksClientConnected(s);
                     }
@@ -44,7 +50,6 @@ namespace SocksCore
                         logger.Error(e.Message);
                     }
                 }
-
             });
         }
     }

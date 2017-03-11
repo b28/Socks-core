@@ -4,10 +4,11 @@ using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
+using SocksCore.Primitives;
 
 namespace SocksCore.SocksHandlers.Socks4
 {
-    public struct Socks4Request
+    public struct Socks4Request : ISocksRequest
     {
         public Socks4RequestHeader Header { get; private set; }
         public string UserName { get; private set; }
@@ -44,5 +45,12 @@ namespace SocksCore.SocksHandlers.Socks4
 
         }
 
+        public ISocksResponse ProcessRequest()
+        {
+            ISocks4Response response = null;
+            return response;
+        }
     }
+
+
 }

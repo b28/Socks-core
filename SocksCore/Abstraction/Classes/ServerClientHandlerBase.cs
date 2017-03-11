@@ -2,9 +2,12 @@
 
 namespace SocksCore
 {
-    public abstract class SocksClientHandlerBase : ClientConnectionHandler, ISocksClientHandler
+    public abstract class TlvClietnHandlerBase : ClientConnectionHandler, ISocksClientHandler
     {
-        public abstract void HandleSocksRequest(ISocksClient clientToHandle);
+        protected abstract byte HeaderMarker { get; }
+        public abstract ISocksClient HandleClientRequest(ISocksClient clientToHandle);
+        public ISocketHandlerSettings Settings { get; set; }
+        public abstract bool CanHandleRequestByHeader(byte[] header);
         public ISocketTimeouts GetTimeouts(ISocketContainer socket)
         {
             var oldTimeouts = new SocketTimeouts { ReceiveTimeout = socket.Socket.ReceiveTimeout, SendTimeout = socket.Socket.SendTimeout };
@@ -19,6 +22,5 @@ namespace SocksCore
             return oldTimeouts;
         }
 
-        public ISocketHandlerSettings Settings { get; set; }
     }
 }

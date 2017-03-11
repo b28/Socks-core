@@ -1,5 +1,7 @@
 using SocksCore.Primitives;
 using System.Runtime.InteropServices;
+using SocksCore.Utils;
+using SocksCore.Utils.Log;
 
 namespace SocksCore.SocksHandlers.Socks4
 {
@@ -9,14 +11,16 @@ namespace SocksCore.SocksHandlers.Socks4
         public byte ProtocolVersion;
         public Socks4RequestType RequestType;//{ get; set; }
         public ushort Port;// { get; set; }
-        public int IpAddress;//{ get; set; }
+        public uint IpAddress;//{ get; set; }
     }
 
     public static class Socks4RequestHeaderFabric
     {
         public static Socks4RequestHeader FromHeader(byte[] fullHeader)
         {
-            return MarshalHelper.ByteArrayToStructure<Socks4RequestHeader>(fullHeader);
+            var result = MarshalHelper.ByteArrayToStructure<Socks4RequestHeader>(fullHeader);
+            result.Port = result.Port.SwapBytes();
+            return result;
         }
     }
 }

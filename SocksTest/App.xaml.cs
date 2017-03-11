@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using System.Windows;
-using SocksCore;
+﻿using SocksCore;
 using SocksCore.Primitives;
 using SocksCore.SocksHandlers.Socks4;
 using SocksCore.Utils.Log;
+using System;
+using System.IO;
+using System.Net;
+using System.Windows;
 
 namespace SocksTest
 {
@@ -34,10 +29,10 @@ namespace SocksTest
     {
         private Logger logger = new Logger(
             Path.Combine(Directory.GetCurrentDirectory(), "log.txt"));
-        UniversalSocksCore core;
+        UniversalTlvCore core;
         public CompositionRoot()
         {
-            core = new UniversalSocksCore(new Socks4ClientHandler(logger), null);
+            core = new UniversalTlvCore(new Socks4ClientHandler(logger), null);
         }
 
         public void StartComposition()
@@ -47,8 +42,8 @@ namespace SocksTest
 
             logger.CurrentLogLevel = Logger.LogLevel.Debug;
 
-            core.ClientConnected += CoreOnClientConnected;
-            core.ClientRequestReceived += CoreOnClientRequestReceived;
+            core.ConnectionEstablished += CoreOnConnectionEstablished;
+            core.Disconnected += CoreOnDisconnected;
             clientSource.NewSocksClientConnected += ClientSourceOnNewSocksClientConnected;
             try
             {
@@ -62,12 +57,12 @@ namespace SocksTest
 
         }
 
-        private void CoreOnClientRequestReceived(object sender, string s)
+        private void CoreOnDisconnected(object sender, string s)
         {
             logger.Notice(s);
         }
 
-        private void CoreOnClientConnected(object sender, string s)
+        private void CoreOnConnectionEstablished(object sender, string s)
         {
             logger.Notice(s);
         }

@@ -22,7 +22,7 @@ namespace CoreTests
 
             //Act
 
-            var core = new SocksCore.UniversalSocksCore(universalHandler, universalHandler);
+            var core = new SocksCore.UniversalTlvCore(universalHandler, universalHandler);
             core.AcceptClientConnection(huySocket);
 
 

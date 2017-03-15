@@ -39,8 +39,9 @@ namespace SocksCore.SocksHandlers
             SourceConnection.DataReceived += SourceConnectionOnDataReceived;
             DrainConnection.DataReceived += DrainConnectionOnDataReceived;
             SourceConnection.Disconnected += SourceConnectionOnDisconnected;
-            SourceConnection.BeginReceive();
+            
             DrainConnection.BeginReceive();
+            SourceConnection.BeginReceive();
         }
 
         private void SourceConnectionOnDisconnected(object sender, EventArgs eventArgs)

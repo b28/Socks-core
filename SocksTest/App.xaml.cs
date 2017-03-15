@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Windows;
+using SocksCore.SocksHandlers;
 
 namespace SocksTest
 {
@@ -38,6 +39,20 @@ namespace SocksTest
         public void StartComposition()
         {
             var innerEndPoint = new IPEndPoint(IPAddress.Parse("192.168.0.168"), 1112);
+            //var ep1 = new IPEndPoint(IPAddress.Parse("192.168.0.168"), 1100);
+            //var ep2 = new IPEndPoint(IPAddress.Parse("192.168.0.168"), 1200);
+
+            //var cl = new TcpClientEx();
+            //cl.Connect(ep1);
+            //var cb = new TcpClientEx();
+            //cb.Connect(ep2);
+
+            //var cp = new LinkedPairConnection(cl,cb);
+            //cp.JoinConnections();
+
+
+            //return;
+
             var clientSource = new TlvClientSourceFromListener(logger);
 
             logger.CurrentLogLevel = Logger.LogLevel.Debug;
@@ -51,7 +66,7 @@ namespace SocksTest
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                logger.Fatal(e.Message);
                 throw;
             }
 

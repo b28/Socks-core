@@ -26,6 +26,8 @@ namespace SocksCore.SocksHandlers.Socks4
 
             if (socks4Request.Header.RequestType == Socks4RequestType.TcpIpConnection)
             {
+                //var ss = new byte[500];
+                //var s = clientToHandle.Client.Receive(ss);
                 logger.Notice($"Request command is TCP/IP connection to:{socks4Request.IpAddress} on:{socks4Request.Port}");
                 var connectionTarget = new IPEndPoint(socks4Request.IpAddress, socks4Request.Port);
                 var sourceSocksClient = new TcpClientEx();
@@ -43,7 +45,7 @@ namespace SocksCore.SocksHandlers.Socks4
                     throw new ConnectionEstablisherException(); // catch in upper code
                 }
                 responseToClient = new Socks4Response(Socks4ErrorCodes.Success);
-                sourceSocksClient.Send(responseToClient.GetBytes());
+                clientToHandle.Send(responseToClient.GetBytes());
 
                 var drainSocksClient = new TcpClientEx(clientToHandle.Client);
                 // At this point we have an Drain and Source Socks "streams" which analog as a field transistor architecture.
@@ -51,7 +53,7 @@ namespace SocksCore.SocksHandlers.Socks4
                 var pair = new LinkedPairConnection(drainSocksClient, sourceSocksClient);
                 //pair.SourceConnection.Disconnected+=pair.So;
                 pair.JoinConnections();
-                
+
                 pair.LinkedPairClosed += PairOnLinkedPairClosed;
                 LinkedConnections.Add(pair);
 

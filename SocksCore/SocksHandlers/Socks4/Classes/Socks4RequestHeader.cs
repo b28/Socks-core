@@ -1,7 +1,6 @@
 using SocksCore.Primitives;
-using System.Runtime.InteropServices;
 using SocksCore.Utils;
-using SocksCore.Utils.Log;
+using System.Runtime.InteropServices;
 
 namespace SocksCore.SocksHandlers.Socks4
 {
@@ -18,7 +17,7 @@ namespace SocksCore.SocksHandlers.Socks4
     {
         public static Socks4RequestHeader FromHeader(byte[] fullHeader)
         {
-            var result = MarshalHelper.ByteArrayToStructure<Socks4RequestHeader>(fullHeader);
+            var result = fullHeader.ToStructure<Socks4RequestHeader>();
             result.Port = result.Port.SwapBytes();
             return result;
         }

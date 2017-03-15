@@ -9,22 +9,24 @@ namespace SocksCore
     public sealed class UniversalTlvCore : IClientConnectionsHandler
     {
         private const int TlvHeaderSize = 1;
-        private IList<TlvClietnHandlerBase> registeredClientHandlers = new List<TlvClietnHandlerBase>();
+        private IList<TlvClientHandlerBase> registeredClientHandlers = new List<TlvClientHandlerBase>();
 
-        private const byte DefaultSocksError = (byte)Socks4ErrorCodes.Error;
+        public int ActiveConnections { get; private set; }
+        //private const byte DefaultSocksError = (byte)Socks4ErrorCodes.Error;
 
-        public void AcceptClientConnection(ISocksClient client /*Socket client*/)
+        public void AcceptClientConnection(ITlvClient client /*Socket client*/)
         {
             var tlvPacketType = TlvTypeFromHeader(client);
 
             var currentHandler =
-                registeredClientHandlers.FirstOrDefault(
+                registeredClientHandlers.First(
                     registeredClientHandler => registeredClientHandler.CanHandleRequestByHeader(BitConverter.GetBytes(tlvPacketType))
                     );
 
             if (currentHandler == null)
-                CloseConnectionAndSendError(client, DefaultSocksError);
-            currentHandler?.HandleClientRequest(client);
+                throw new TlvCoreException("No registered handlers for this Packet type");
+
+            currentHandler.HandleClientRequest(client);
         }
 
         private static byte TlvTypeFromHeader(IBytePeeker peeker)
@@ -34,13 +36,13 @@ namespace SocksCore
         }
 
         private ICanLog logger;
-        public UniversalTlvCore(ICanLog log, params TlvClietnHandlerBase[] handlersToAdd)
+        public UniversalTlvCore(ICanLog log, params TlvClientHandlerBase[] handlersToAdd)
         {
             logger = log;
             AddHandlers(handlersToAdd);
         }
 
-        public int AddHandlers(params TlvClietnHandlerBase[] handlersToAdd)
+        public int AddHandlers(params TlvClientHandlerBase[] handlersToAdd)
         {
             foreach (var clientConnectionsHandler in handlersToAdd)
                 if (clientConnectionsHandler != null)
@@ -52,9 +54,10 @@ namespace SocksCore
         public event EventHandler<string> Disconnected;
 
 
-        public void CloseConnectionAndSendError(ISocksClient connectionToClose, uint errorCode)
+        public void SendResponseToClient(ITlvClient client, byte[] responsePacket)
         {
-            connectionToClose.Close();
+
+            client.Close();
             //            throw new NotImplementedException();
         }
 
@@ -62,10 +65,11 @@ namespace SocksCore
 
         private void OnClientConnected(string e)
         {
+            ActiveConnections++;
             ConnectionEstablished?.Invoke(this, e);
         }
 
-        private void OnClientRequestReceived(string e)
+        private void OnClientDisconnected(string e)
         {
             Disconnected?.Invoke(this, e);
         }

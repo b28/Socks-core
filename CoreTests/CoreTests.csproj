@@ -55,6 +55,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Misc\MiscellanousTypesTests.cs" />
     <Compile Include="Socks4RequestTests\Socks4RequestTests.cs" />
     <Compile Include="SocksClientSource\SocksClientSourceFromListenerTest.cs" />
     <Compile Include="SocksConnectionEstablisherTests\ConnectionEstablisherTest.cs" />

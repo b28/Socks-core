@@ -1,19 +1,11 @@
 ﻿using System;
+using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
 namespace SocksCore.Primitives
 {
-
-
-    public struct DataStruct
-    {
-        public byte[] Buffer;
-        public int BytesCount;
-
-    }
-
-    public class TcpClientEx : TcpClient, ISocksClient
+    public class TcpClientEx : TcpClient, ITlvClient , IDestinationEndPointHolder
     {
         private const int BufferSize = 32 * 1024; // 32KB
 
@@ -25,7 +17,7 @@ namespace SocksCore.Primitives
         private const uint KeepAliveInterval = 10000;
 
         public event EventHandler Disconnected;
-        public event EventHandler<DataStruct> DataReceived;
+        public event EventHandler<PacketData> DataReceived;
 
         public TcpClientEx()
         {
@@ -57,7 +49,7 @@ namespace SocksCore.Primitives
 
         }
 
-        protected async Task BeginReceive(byte[] readTo)
+        private async Task BeginReceive(byte[] readTo)
         {
             try
             {
@@ -67,7 +59,7 @@ namespace SocksCore.Primitives
                 var readedBytesCount = await stream.ReadAsync(readTo, 0, readTo.Length).ConfigureAwait(false);
                 if (readedBytesCount >= 1)
                 {
-                    DataReceived?.Invoke(this, new DataStruct
+                    DataReceived?.Invoke(this, new PacketData
                     {
                         Buffer = readTo,
                         BytesCount = readedBytesCount
@@ -86,7 +78,7 @@ namespace SocksCore.Primitives
         }
 
 
-        protected virtual void DoOnDisconnected()
+        private void DoOnDisconnected()
         {
             Disconnected?.Invoke(this, EventArgs.Empty);
         }
@@ -105,5 +97,7 @@ namespace SocksCore.Primitives
         {
             Client.Send(arrayToSend);
         }
+
+        public IPEndPoint ConnectedToEndPoint => (IPEndPoint) Client.RemoteEndPoint;
     }
 }

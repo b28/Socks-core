@@ -1,8 +1,8 @@
-﻿using SocksCore.Primitives;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
+using SocksCore.Primitives;
 
-namespace SocksCore
+namespace SocksCore.SocksHandlers
 {
     public abstract class SocksConnectionEstablisherBase : ISocksConnectionEstablisher
     {

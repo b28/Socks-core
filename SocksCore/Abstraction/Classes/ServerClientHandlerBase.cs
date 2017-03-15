@@ -2,11 +2,12 @@
 
 namespace SocksCore
 {
-    public abstract class TlvClietnHandlerBase : ClientConnectionHandler, ISocksClientHandler
+    public abstract class TlvClientHandlerBase : ClientConnectionHandler
     {
         protected abstract byte HeaderMarker { get; }
-        public abstract ISocksClient HandleClientRequest(ISocksClient clientToHandle);
         public ISocketHandlerSettings Settings { get; set; }
+        public abstract void HandleClientRequest(ITlvClient clientToHandle);
+        
         public abstract bool CanHandleRequestByHeader(byte[] header);
         public ISocketTimeouts GetTimeouts(ISocketContainer socket)
         {

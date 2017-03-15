@@ -5,7 +5,7 @@ namespace SocksCore
     public interface ISocksClientHandler : IClientConnectionsHandler, ISocketTimeoutsManager
     {
         ISocketHandlerSettings Settings { get; set; }
-        ISocksClient HandleClientRequest(ISocksClient clientToHandle);
+        void HandleClientRequest(ITlvClient clientToHandle);
         bool CanHandleRequestByHeader(byte[] header);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Net.Sockets;
 using System.Runtime.Serialization;
 
-namespace SocksCore
+namespace SocksCore.SocksHandlers
 {
     public class SocksException : SocketException
     {

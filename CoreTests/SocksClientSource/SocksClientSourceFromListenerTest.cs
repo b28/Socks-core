@@ -8,7 +8,7 @@ namespace CoreTests.SocksClientSource
         [TestMethod]
         public void AssertIfNoClientOnClientAccept()
         {
-            //var source = new SocksClientSourceFromListener();
+            //var source = new TlvClientSourceFromListener();
             //source
         }
     }

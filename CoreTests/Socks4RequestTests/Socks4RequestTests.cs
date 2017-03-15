@@ -14,7 +14,7 @@ namespace CoreTests.Socks4RequestTests
         /// <summary>
         /// Standart IPv4 Request with NO user Name
         /// </summary>
-        private static readonly byte[] Socks4dummyUserNameConnectRequest = { 0x4, 1, 80, 0, 192, 168, 0, 168, (byte)'d', (byte)'u', (byte)'m', (byte)'m', (byte)'y', 0 };
+        private static readonly byte[] Socks4DummyUserNameConnectRequest = { 0x4, 1, 0, 80, 192, 168, 0, 168, (byte)'d', (byte)'u', (byte)'m', (byte)'m', (byte)'y', 0 };
 
         private static readonly string UserName = "dummy";
         public static readonly string IpForParsing = "192.168.0.168";
@@ -26,7 +26,7 @@ namespace CoreTests.Socks4RequestTests
                 if (tempObject.Header.ProtocolVersion != 0) return tempObject;
                 var receiver = Substitute.For<IByteReceiver>();
 
-                var buffer = Socks4RequestExamples.Socks4dummyUserNameConnectRequest;
+                var buffer = Socks4RequestExamples.Socks4DummyUserNameConnectRequest;
                 var ms = new MemoryStream(buffer);
 
                 receiver.Receive(Arg.Any<int>()).Returns(x =>
@@ -58,6 +58,7 @@ namespace CoreTests.Socks4RequestTests
             Assert.IsTrue(request.Header.ProtocolVersion == (int)SocksVersion.Socks4);
             Assert.IsFalse(string.IsNullOrEmpty(request.UserName));
         }
+
 
         [TestMethod]
         public void AssertIfPortFromRequestNotEqual80IpParsingError()

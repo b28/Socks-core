@@ -32,19 +32,19 @@ namespace SocksTest
         UniversalTlvCore core;
         public CompositionRoot()
         {
-            core = new UniversalTlvCore(new Socks4ClientHandler(logger), null);
+            core = new UniversalTlvCore(logger, new Socks4ClientHandler(logger));
         }
 
         public void StartComposition()
         {
             var innerEndPoint = new IPEndPoint(IPAddress.Parse("192.168.0.168"), 1112);
-            var clientSource = new SocksClientSourceFromListener(logger);
+            var clientSource = new TlvClientSourceFromListener(logger);
 
             logger.CurrentLogLevel = Logger.LogLevel.Debug;
 
             core.ConnectionEstablished += CoreOnConnectionEstablished;
             core.Disconnected += CoreOnDisconnected;
-            clientSource.NewSocksClientConnected += ClientSourceOnNewSocksClientConnected;
+            clientSource.NewTlvClientConnected += ClientSourceOnNewTlvClientConnected;
             try
             {
                 clientSource.BeginAcceptClients(innerEndPoint);
@@ -67,9 +67,9 @@ namespace SocksTest
             logger.Notice(s);
         }
 
-        private void ClientSourceOnNewSocksClientConnected(object sender, ISocksClient socksClient)
+        private void ClientSourceOnNewTlvClientConnected(object sender, ITlvClient tlvClient)
         {
-            core.AcceptClientConnection(socksClient);
+            core.AcceptClientConnection(tlvClient);
         }
     }
 }

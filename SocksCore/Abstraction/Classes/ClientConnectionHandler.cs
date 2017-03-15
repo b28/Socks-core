@@ -5,16 +5,16 @@ namespace SocksCore
 {
     public abstract class ClientConnectionHandler : IClientConnectionsHandler
     {
-        public virtual void CloseConnectionAndSendError(ISocksClient connectionToClose, uint errorCode)
+        public virtual void SendResponseToClient(ITlvClient client, byte[] responsePacket)
         {
-            var errorArray = BitConverter.GetBytes(errorCode);
+            var errorArray = (responsePacket);
             try
             {
-                connectionToClose.Send(errorArray);
+                client.Send(errorArray);
             }
             finally
             {
-                connectionToClose.Close();
+                client.Close();
             }
         }
 

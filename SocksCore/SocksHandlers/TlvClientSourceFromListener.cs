@@ -7,16 +7,14 @@ using System.Threading.Tasks;
 
 namespace SocksCore
 {
-    public class SocksClientSourceFromListener : SocksClientSourceBase
+    public class TlvClientSourceFromListener : TlvClientSourceBase
     {
 
         private ICanLog logger;
 
-        public SocksClientSourceFromListener(ICanLog log)
+        public TlvClientSourceFromListener(ICanLog log)
         {
             logger = log;
-
-
         }
 
         public void BeginAcceptClients(IPEndPoint listenTo)

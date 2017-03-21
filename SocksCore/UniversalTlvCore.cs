@@ -56,9 +56,7 @@ namespace SocksCore
 
         public void SendResponseToClient(ITlvClient client, byte[] responsePacket)
         {
-
             client.Close();
-            //            throw new NotImplementedException();
         }
 
         #region Events invocators

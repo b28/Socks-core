@@ -54,6 +54,7 @@
     <Compile Include="Abstraction\Interfaces\ITlvClientSource.cs" />
     <Compile Include="Abstraction\Interfaces\ISocksConnectionEstablisher.cs" />
     <Compile Include="Abstraction\Interfaces\ISocksResponseTypes.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Primitives\PacketData.cs" />
     <Compile Include="SocksHandlers\Abstraction\IDrainSocksClient.cs" />
     <Compile Include="Primitives\ISocketContainer.cs" />

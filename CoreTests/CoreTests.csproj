@@ -59,6 +59,7 @@
     <Compile Include="Socks4RequestTests\Socks4RequestTests.cs" />
     <Compile Include="SocksClientSource\SocksClientSourceFromListenerTest.cs" />
     <Compile Include="SocksConnectionEstablisherTests\ConnectionEstablisherTest.cs" />
+    <Compile Include="TesterTests\ExtractConfigTests.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -69,6 +70,10 @@
     <ProjectReference Include="..\SocksCore\SocksCore.csproj">
       <Project>{da0dc6f6-b9a0-4419-9ba8-0b823c79845f}</Project>
       <Name>SocksCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SocksTest\SocksTest.csproj">
+      <Project>{6AEBCF4D-69EE-4624-9AD8-3F39B16D2D6F}</Project>
+      <Name>SocksTest</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

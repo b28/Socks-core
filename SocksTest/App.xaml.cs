@@ -1,26 +1,32 @@
 ﻿using SocksCore;
 using SocksCore.Primitives;
+using SocksCore.SocksHandlers;
 using SocksCore.SocksHandlers.Socks4;
 using SocksCore.Utils.Log;
+using SocksTest.ConnectionEstablisher;
+using SocksTest.Settings;
 using System;
 using System.IO;
 using System.Net;
+using System.Reflection;
 using System.Windows;
-using SocksCore.SocksHandlers;
+using SocksTest.ConnectionEstablishers;
 
 namespace SocksTest
 {
+
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
     public partial class App : Application
     {
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
-            var compisitionRoot = new CompositionRoot();
-            compisitionRoot.StartComposition();
+            var compositionRoot = new CompositionRoot();
+            compositionRoot.StartComposition();
         }
     }
 
@@ -28,30 +34,47 @@ namespace SocksTest
 
     public class CompositionRoot
     {
-        private Logger logger = new Logger(
+        private readonly IConfigProvider configProvider;
+        private IConnectorFactory connectorFactory;
+        private IConnectionEstablisher connectionEstablisher;
+
+        private ITlvClientSource clientSource;
+
+
+        private readonly ILogger logger = new Logger(
             Path.Combine(Directory.GetCurrentDirectory(), "log.txt"));
-        UniversalTlvCore core;
+
+        private readonly UniversalTlvCore core;
+
+
+
+
         public CompositionRoot()
         {
             core = new UniversalTlvCore(logger, new Socks4ClientHandler(logger));
+            configProvider = new EmbeddedBytesConfigLoader();
         }
 
         public void StartComposition()
         {
-            var innerEndPoint = new IPEndPoint(IPAddress.Parse("192.168.0.168"), 1112);
-            //var ep1 = new IPEndPoint(IPAddress.Parse("192.168.0.168"), 1100);
-            //var ep2 = new IPEndPoint(IPAddress.Parse("192.168.0.168"), 1200);
+            
+            SocksSettings socksSettings;
 
-            //var cl = new TcpClientEx();
-            //cl.Connect(ep1);
-            //var cb = new TcpClientEx();
-            //cb.Connect(ep2);
+            using (var embeddedFile = File.OpenRead(Assembly.GetEntryAssembly().Location))
+            {
+                socksSettings = configProvider.GetConfig(embeddedFile);
+            }
 
-            //var cp = new LinkedPairConnection(cl,cb);
-            //cp.JoinConnections();
+            connectionEstablisher = connectorFactory.GetConnectorByConfig(socksSettings); // get proper connector
 
 
-            //return;
+
+
+            var connection =
+                connectionEstablisher.Connect(new IPEndPoint(IPAddress.Parse(socksSettings.BackConnectServerIp),
+                    socksSettings.BackConnectServerPort));
+            var tlvClient = new TcpClientEx(connection.Client);
+
 
             var clientSource = new TlvClientSourceFromListener(logger);
 
@@ -67,7 +90,6 @@ namespace SocksTest
             catch (Exception e)
             {
                 logger.Fatal(e.Message);
-                throw;
             }
 
         }
@@ -77,9 +99,9 @@ namespace SocksTest
             logger.Notice(s);
         }
 
-        private void CoreOnConnectionEstablished(object sender, string s)
+        private void CoreOnConnectionEstablished(object sender, string message)
         {
-            logger.Notice(s);
+            logger.Notice(message);
         }
 
         private void ClientSourceOnNewTlvClientConnected(object sender, ITlvClient tlvClient)
@@ -87,4 +109,6 @@ namespace SocksTest
             core.AcceptClientConnection(tlvClient);
         }
     }
+
+
 }

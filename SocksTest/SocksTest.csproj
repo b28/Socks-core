@@ -36,6 +36,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -58,6 +59,20 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ConnectionEstablishers\DirectConnectionEstablisher.cs" />
+    <Compile Include="ConnectionEstablishers\DirectConnector.cs" />
+    <Compile Include="ConnectionEstablishers\Messages\Ntlmv1\NtlmV1Message1.cs" />
+    <Compile Include="ConnectionEstablishers\Messages\Ntlmv1\NtlmV1Message2.cs" />
+    <Compile Include="ConnectionEstablishers\Messages\Ntlmv1\NtlmV1Message3.cs" />
+    <Compile Include="ConnectionEstablishers\ProxyAuthInfo.cs" />
+    <Compile Include="ConnectionEstablishers\ProxyEndPoint.cs" />
+    <Compile Include="ConnectionEstablishers\ThroughProxyConnectionEstablisher.cs" />
+    <Compile Include="ConnectorFactory.cs" />
+    <Compile Include="ConnectionEstablishers\IConnectionEstablisher.cs" />
+    <Compile Include="Exceptions\Exception.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Settings\SocksConfig.cs" />
+    <Compile Include="Settings\SocksSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -91,6 +106,9 @@
       <Project>{DA0DC6F6-B9A0-4419-9BA8-0B823C79845F}</Project>
       <Name>SocksCore</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ConnectionEstablishers\Messages\Ntlmv2\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

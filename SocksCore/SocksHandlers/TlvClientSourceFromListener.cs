@@ -5,19 +5,19 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
-namespace SocksCore
+namespace SocksCore.SocksHandlers
 {
     public class TlvClientSourceFromListener : TlvClientSourceBase
     {
 
         private ICanLog logger;
-
-        public TlvClientSourceFromListener(ICanLog log)
+        private IPEndPoint listenTo;
+        public TlvClientSourceFromListener(ICanLog log, IPEndPoint ipEndPoint)
         {
             logger = log;
         }
 
-        public void BeginAcceptClients(IPEndPoint listenTo)
+        public void BeginAcceptClients()
         {
             logger.Trace($"Trying to start listen for new clients on: {listenTo.Address}  port:{listenTo.Port}");
             Task.Run(async () =>
@@ -41,13 +41,14 @@ namespace SocksCore
                         logger.Notice(
                             $"Client connection accepted from {remoteEndPoint?.Address}:{remoteEndPoint?.Port}");
 
-                        OnNewSocksClientConnected(s);
+                        OnNewTlvClientConnected(s);
                     }
                     catch (Exception e)
                     {
                         logger.Error(e.Message);
                     }
                 }
+                // ReSharper disable once FunctionNeverReturns
             });
         }
     }

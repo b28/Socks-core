@@ -1,5 +1,6 @@
 ﻿using SocksCore.Primitives;
 using System;
+using System.Net;
 
 namespace SocksCore
 {
@@ -8,14 +9,16 @@ namespace SocksCore
         event EventHandler<ITlvClient> NewTlvClientConnected;
     }
 
-    public class TlvClientSourceBase : ITlvClientSource
+    public abstract class TlvClientSourceBase : ITlvClientSource
     {
+
         public event EventHandler<ITlvClient> NewTlvClientConnected;
-        protected virtual void OnNewSocksClientConnected(ITlvClient e)
+        protected virtual void OnNewTlvClientConnected(ITlvClient e)
         {
             NewTlvClientConnected?.Invoke(this, e);
         }
-    }
+        public abstract void GetClients(IPEndPoint getClientsFrom);
 
+    }
 
 }

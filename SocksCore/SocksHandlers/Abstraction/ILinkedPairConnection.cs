@@ -28,18 +28,17 @@ namespace SocksCore.SocksHandlers
         }
         public TcpClientEx DrainConnection { get; }
         public TcpClientEx SourceConnection { get; }
+#pragma warning disable CS0067 // The event 'LinkedPairConnection.SourceConnectionClosed' is never used
         public event EventHandler<ITlvClient> SourceConnectionClosed;
+#pragma warning restore CS0067 // The event 'LinkedPairConnection.SourceConnectionClosed' is never used
         public event EventHandler<ILinkedPairConnection> LinkedPairClosed;
 
         public void JoinConnections()
         {
-            //JoinSessions(DrainConnection, SourceConnection);
-            //JoinSessions(SourceConnection, DrainConnection);
-
             SourceConnection.DataReceived += SourceConnectionOnDataReceived;
             DrainConnection.DataReceived += DrainConnectionOnDataReceived;
             SourceConnection.Disconnected += SourceConnectionOnDisconnected;
-            
+
             DrainConnection.BeginReceive();
             SourceConnection.BeginReceive();
         }

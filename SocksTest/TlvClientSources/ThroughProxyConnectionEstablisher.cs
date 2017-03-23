@@ -1,16 +1,15 @@
-﻿using Socks5Server.ConnectionEstablisher.Messages.NtlmV1;
-using SocksTest.ConnectionEstablisher;
-using SocksTest.ConnectionEstablisher.Messages.Ntlmv1;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using SocksTest.Connectors;
+using SocksTest.Connectors.Messages.Ntlmv1;
 
-namespace SocksTest.ConnectionEstablishers
+namespace SocksTest.TlvClientSources
 {
-    public class ThroughProxyConnectionEstablisher : IConnectionEstablisher
+    public class ThroughProxyConnectionEstablisher
     {
         public event EventHandler<string> DebugMessage;
         //private TcpClient connection = new TcpClient();

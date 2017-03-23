@@ -49,13 +49,13 @@ namespace SocksCore.SocksHandlers.Socks4
 
                 var drainSocksClient = new TcpClientEx(clientToHandle.Client);
                 // At this point we have an Drain and Source Socks "streams" which analog as a field transistor architecture.
-                // and link them beetwen each other in LinkedPair instance
+                // and link them between each other in LinkedPair instance
                 var pair = new LinkedPairConnection(drainSocksClient, sourceSocksClient);
                 //pair.SourceConnection.Disconnected+=pair.So;
                 pair.JoinConnections();
 
                 pair.LinkedPairClosed += PairOnLinkedPairClosed;
-                LinkedConnections.Add(pair);
+                RegisterLinkedPair(pair);
 
             }
             if (socks4Request.Header.RequestType == Socks4RequestType.PortBinding)
@@ -70,7 +70,7 @@ namespace SocksCore.SocksHandlers.Socks4
 
         private void PairOnLinkedPairClosed(object sender, ILinkedPairConnection linkedPairConnection)
         {
-            LinkedConnections.Remove(linkedPairConnection);
+            RemoveLinkedPair(linkedPairConnection);
             //ClientDisconnected
 
         }

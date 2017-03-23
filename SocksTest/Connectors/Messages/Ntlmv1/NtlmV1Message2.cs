@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace SocksTest.ConnectionEstablisher.Messages.Ntlmv1
+namespace SocksTest.Connectors.Messages.Ntlmv1
 {
     public class NtlmV1ServerChallenge
     {

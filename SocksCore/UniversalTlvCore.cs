@@ -9,7 +9,7 @@ namespace SocksCore
     public sealed class UniversalTlvCore : IClientConnectionsHandler
     {
         private const int TlvHeaderSize = 1;
-        private IList<TlvClientHandlerBase> registeredClientHandlers = new List<TlvClientHandlerBase>();
+        private readonly IList<TlvClientHandlerBase> registeredClientHandlers = new List<TlvClientHandlerBase>();
 
         public int ActiveConnections { get; private set; }
         //private const byte DefaultSocksError = (byte)Socks4ErrorCodes.Error;

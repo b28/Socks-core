@@ -11,7 +11,7 @@ namespace SocksCore.SocksHandlers
         TcpClientEx DrainConnection { get; }
         TcpClientEx SourceConnection { get; }
         IConnectionIdentity Identity { get; }
-        event EventHandler<ITlvClient> SourceConnectionClosed;
+
         event EventHandler<ILinkedPairConnection> LinkedPairClosed;
     }
 
@@ -28,9 +28,7 @@ namespace SocksCore.SocksHandlers
         }
         public TcpClientEx DrainConnection { get; }
         public TcpClientEx SourceConnection { get; }
-#pragma warning disable CS0067 // The event 'LinkedPairConnection.SourceConnectionClosed' is never used
-        public event EventHandler<ITlvClient> SourceConnectionClosed;
-#pragma warning restore CS0067 // The event 'LinkedPairConnection.SourceConnectionClosed' is never used
+
         public event EventHandler<ILinkedPairConnection> LinkedPairClosed;
 
         public void JoinConnections()
@@ -38,9 +36,15 @@ namespace SocksCore.SocksHandlers
             SourceConnection.DataReceived += SourceConnectionOnDataReceived;
             DrainConnection.DataReceived += DrainConnectionOnDataReceived;
             SourceConnection.Disconnected += SourceConnectionOnDisconnected;
+            DrainConnection.Disconnected += DrainConnectionOnDisconnected;
 
             DrainConnection.BeginReceive();
             SourceConnection.BeginReceive();
+        }
+
+        private void DrainConnectionOnDisconnected(object sender, EventArgs eventArgs)
+        {
+            CloseSession();
         }
 
         private void SourceConnectionOnDisconnected(object sender, EventArgs eventArgs)
@@ -62,13 +66,22 @@ namespace SocksCore.SocksHandlers
         {
             if (disposed) return;
             disposed = true;
-            SourceConnection.Client?.Close();
-            DrainConnection.Client?.Close();
+
+            try
+            {
+                SourceConnection.Client?.Close();
+                DrainConnection.Client?.Close();
+            }
+            catch
+            {
+                // ignored
+            }
 
             SourceConnection.DataReceived -= SourceConnectionOnDataReceived;
             SourceConnection.Disconnected -= SourceConnectionOnDisconnected;
 
             DrainConnection.DataReceived -= DrainConnectionOnDataReceived;
+            DrainConnection.Disconnected -= DrainConnectionOnDisconnected;
 
             DoOnSessionClosed();
         }

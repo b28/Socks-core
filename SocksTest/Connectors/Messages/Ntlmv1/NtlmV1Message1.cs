@@ -1,8 +1,8 @@
-using SocksTest.Extensions;
 using System;
 using System.Text;
+using SocksTest.Extensions;
 
-namespace SocksTest.ConnectionEstablisher.Messages.Ntlmv1
+namespace SocksTest.Connectors.Messages.Ntlmv1
 {
     public class NtlmV1Message1
     {

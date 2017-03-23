@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SocksTest</RootNamespace>
     <AssemblyName>SocksTest</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -59,16 +60,22 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ConnectionEstablishers\DirectConnectionEstablisher.cs" />
-    <Compile Include="ConnectionEstablishers\DirectConnector.cs" />
-    <Compile Include="ConnectionEstablishers\Messages\Ntlmv1\NtlmV1Message1.cs" />
-    <Compile Include="ConnectionEstablishers\Messages\Ntlmv1\NtlmV1Message2.cs" />
-    <Compile Include="ConnectionEstablishers\Messages\Ntlmv1\NtlmV1Message3.cs" />
-    <Compile Include="ConnectionEstablishers\ProxyAuthInfo.cs" />
-    <Compile Include="ConnectionEstablishers\ProxyEndPoint.cs" />
-    <Compile Include="ConnectionEstablishers\ThroughProxyConnectionEstablisher.cs" />
+    <Compile Include="Cryptography\Md4.cs" />
+    <Compile Include="TlvClientSources\ConnectBackConnectionIdentity.cs" />
+    <Compile Include="Connectors\Connections\BackConnection.cs" />
+    <Compile Include="Connectors\Connections\IBackConnection.cs" />
+    <Compile Include="TlvClientSources\DirectConnectionEstablisher.cs" />
+    <Compile Include="Connectors\IConnectBackConnectionIdentity.cs" />
+    <Compile Include="Connectors\IIdentityFactory.cs" />
+    <Compile Include="Connectors\Messages\Ntlmv1\NtlmV1Message1.cs" />
+    <Compile Include="Connectors\Messages\Ntlmv1\NtlmV1Message2.cs" />
+    <Compile Include="Connectors\Messages\Ntlmv1\NtlmV1Message3.cs" />
+    <Compile Include="Connectors\ProxyAuthInfo.cs" />
+    <Compile Include="Connectors\ProxyEndPoint.cs" />
+    <Compile Include="Connectors\RemoteClientInfo.cs" />
+    <Compile Include="TlvClientSources\ThroughProxyConnectionEstablisher.cs" />
     <Compile Include="ConnectorFactory.cs" />
-    <Compile Include="ConnectionEstablishers\IConnectionEstablisher.cs" />
+    <Compile Include="Connectors\SocksConnectorFactory.cs" />
     <Compile Include="Exceptions\Exception.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Settings\SocksConfig.cs" />
@@ -108,7 +115,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ConnectionEstablishers\Messages\Ntlmv2\" />
+    <Folder Include="Connectors\Messages\Ntlmv2\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,8 +1,10 @@
 using System;
 using System.Security.Cryptography;
 using System.Text;
+using SocksTest.Cryptography;
+using SocksTest.Extensions;
 
-namespace Socks5Server.ConnectionEstablisher.Messages.NtlmV1
+namespace SocksTest.Connectors.Messages.Ntlmv1
 {
     public class NtlmV1Message3
     {
@@ -143,7 +145,7 @@ namespace Socks5Server.ConnectionEstablisher.Messages.NtlmV1
         private byte[] CreateNtResponse(string userPassword, byte[] challengeServer)
         {
             var ntHashedPassword = new byte[21];
-            new MD4().GetByteHashFromBytes(Encoding.Unicode.GetBytes(GetModifyUserPassword(userPassword))).CopyTo(ntHashedPassword, 0);
+            new Md4().GetByteHashFromBytes(Encoding.Unicode.GetBytes(GetModifyUserPassword(userPassword))).CopyTo(ntHashedPassword, 0);
             var buff = new byte[7];
             var buffResponse = new byte[24];
             for (var i = 0; i < 3; i++)

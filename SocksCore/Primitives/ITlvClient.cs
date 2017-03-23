@@ -4,7 +4,7 @@ using System.Net.Sockets;
 
 namespace SocksCore.Primitives
 {
-    public interface ITlvClient : IBytePeeker, IByteReceiver , IDestinationEndPointHolder
+    public interface ITlvClient : IBytePeeker, IByteReceiver, IDestinationEndPointHolder
     {
         event EventHandler Disconnected;
         event EventHandler<PacketData> DataReceived;
@@ -13,6 +13,7 @@ namespace SocksCore.Primitives
         void Close();
         void Send(byte[] arrayToSend);
     }
+
 
     public interface IDestinationEndPointHolder
     {

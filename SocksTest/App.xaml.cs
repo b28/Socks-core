@@ -3,14 +3,13 @@ using SocksCore.Primitives;
 using SocksCore.SocksHandlers;
 using SocksCore.SocksHandlers.Socks4;
 using SocksCore.Utils.Log;
-using SocksTest.ConnectionEstablisher;
+using SocksTest.Connectors;
 using SocksTest.Settings;
 using System;
 using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Windows;
-using SocksTest.ConnectionEstablishers;
 
 namespace SocksTest
 {
@@ -35,10 +34,8 @@ namespace SocksTest
     public class CompositionRoot
     {
         private readonly IConfigProvider configProvider;
-        private IConnectorFactory connectorFactory;
-        private IConnectionEstablisher connectionEstablisher;
-
-        private ITlvClientSource clientSource;
+        private readonly IConnectorFactory clientSourceFactory;
+        private TlvClientSourceBase clientSource;
 
 
         private readonly ILogger logger = new Logger(
@@ -53,11 +50,12 @@ namespace SocksTest
         {
             core = new UniversalTlvCore(logger, new Socks4ClientHandler(logger));
             configProvider = new EmbeddedBytesConfigLoader();
+            clientSourceFactory = new SocksConnectorFactory(logger);
         }
 
         public void StartComposition()
         {
-            
+
             SocksSettings socksSettings;
 
             using (var embeddedFile = File.OpenRead(Assembly.GetEntryAssembly().Location))
@@ -65,32 +63,35 @@ namespace SocksTest
                 socksSettings = configProvider.GetConfig(embeddedFile);
             }
 
-            connectionEstablisher = connectorFactory.GetConnectorByConfig(socksSettings); // get proper connector
+            
+            clientSource = clientSourceFactory.GetClientSourceByConfig(socksSettings); // get proper connector
 
-
-
-
-            var connection =
-                connectionEstablisher.Connect(new IPEndPoint(IPAddress.Parse(socksSettings.BackConnectServerIp),
-                    socksSettings.BackConnectServerPort));
-            var tlvClient = new TcpClientEx(connection.Client);
-
-
-            var clientSource = new TlvClientSourceFromListener(logger);
-
-            logger.CurrentLogLevel = Logger.LogLevel.Debug;
-
-            core.ConnectionEstablished += CoreOnConnectionEstablished;
-            core.Disconnected += CoreOnDisconnected;
             clientSource.NewTlvClientConnected += ClientSourceOnNewTlvClientConnected;
-            try
-            {
-                clientSource.BeginAcceptClients(innerEndPoint);
-            }
-            catch (Exception e)
-            {
-                logger.Fatal(e.Message);
-            }
+
+            clientSource.StartConnections();
+
+
+
+            //connectionEstablisher.Connect(new IPEndPoint(IPAddress.Parse(socksSettings.BackConnectServerIp),
+            //    socksSettings.BackConnectServerPort));
+            //var tlvClient = new TcpClientEx(connection.Client);
+
+
+            
+
+            //logger.CurrentLogLevel = Logger.LogLevel.Debug;
+
+            //core.ConnectionEstablished += CoreOnConnectionEstablished;
+            //core.Disconnected += CoreOnDisconnected;
+            //clientSource.NewTlvClientConnected += ClientSourceOnNewTlvClientConnected;
+            //try
+            //{
+            //    clientSource.BeginAcceptClients(innerEndPoint);
+            //}
+            //catch (Exception e)
+            //{
+            //    logger.Fatal(e.Message);
+            //}
 
         }
 

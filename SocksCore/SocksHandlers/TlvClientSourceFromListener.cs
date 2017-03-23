@@ -10,46 +10,46 @@ namespace SocksCore.SocksHandlers
     public class TlvClientSourceFromListener : TlvClientSourceBase
     {
 
-        private ICanLog logger;
+        private readonly ICanLog logger;
         private IPEndPoint listenTo;
-        public TlvClientSourceFromListener(ICanLog log, IPEndPoint ipEndPoint)
+        public TlvClientSourceFromListener(ICanLog log, IPEndPoint endPointToListen)
         {
+            listenTo = endPointToListen;
             logger = log;
         }
 
-        public void BeginAcceptClients()
+        private async Task WaitForConnection()
+        {
+            var listener = new TcpListener(listenTo);
+            listener.Start();
+            while (true)
+            {
+                try
+                {
+                    var ex = await listener.AcceptTcpClientAsync().ConfigureAwait(false);
+                    var s = new TcpClientEx();
+
+                    s.AttachToSocket(ex.Client);
+                    //s.Client.SetupSocketTimeouts(new SocketSettings { NetworkClientKeepAliveInterval = 1000, NetworkClientKeepAliveTimeout = 1000 });
+
+                    var remoteEndPoint = s.Client.RemoteEndPoint as IPEndPoint;
+                    if (remoteEndPoint != null)
+                        logger.Trace($"Accepted a new client from {remoteEndPoint.Address}");
+                    logger.Notice(
+                        $"Client connection accepted from {remoteEndPoint?.Address}:{remoteEndPoint?.Port}");
+
+                    OnNewTlvClientConnected(s);
+                }
+                catch (Exception e)
+                {
+                    logger.Error(e.Message);
+                }
+            }
+        }
+        public override void StartConnections()
         {
             logger.Trace($"Trying to start listen for new clients on: {listenTo.Address}  port:{listenTo.Port}");
-            Task.Run(async () =>
-            {
-
-                var listener = new TcpListener(listenTo);
-                listener.Start();
-                while (true)
-                {
-                    try
-                    {
-                        var ex = await listener.AcceptTcpClientAsync().ConfigureAwait(false);
-                        var s = new TcpClientEx();
-
-                        s.AttachToSocket(ex.Client);
-                        //s.Client.SetupSocketTimeouts(new SocketSettings { NetworkClientKeepAliveInterval = 1000, NetworkClientKeepAliveTimeout = 1000 });
-
-                        var remoteEndPoint = s.Client.RemoteEndPoint as IPEndPoint;
-                        if (remoteEndPoint != null)
-                            logger.Trace($"Accepted a new client from {remoteEndPoint.Address}");
-                        logger.Notice(
-                            $"Client connection accepted from {remoteEndPoint?.Address}:{remoteEndPoint?.Port}");
-
-                        OnNewTlvClientConnected(s);
-                    }
-                    catch (Exception e)
-                    {
-                        logger.Error(e.Message);
-                    }
-                }
-                // ReSharper disable once FunctionNeverReturns
-            });
+            Task.Run(WaitForConnection);
         }
     }
 }

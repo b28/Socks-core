@@ -5,9 +5,17 @@ using System.Threading.Tasks;
 
 namespace SocksCore.Primitives
 {
-    public class TcpClientEx : TcpClient, ITlvClient , IDestinationEndPointHolder
+
+    public interface IClientDataPolled
+    {
+        event EventHandler DataPolled;
+    }
+
+    public class TcpClientEx : TcpClient, ITlvClient, IDestinationEndPointHolder, IClientDataPolled
     {
         private const int BufferSize = 32 * 1024; // 32KB
+
+
 
 
         private byte[] ReadBuffer = new byte[BufferSize];
@@ -98,6 +106,7 @@ namespace SocksCore.Primitives
             Client.Send(arrayToSend);
         }
 
-        public IPEndPoint ConnectedToEndPoint => (IPEndPoint) Client.RemoteEndPoint;
+        public IPEndPoint ConnectedToEndPoint => (IPEndPoint)Client.RemoteEndPoint;
+        public event EventHandler DataPolled;
     }
 }

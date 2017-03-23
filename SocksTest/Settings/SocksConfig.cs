@@ -19,9 +19,11 @@ namespace SocksTest.Settings
         {
             var formatter = new BinaryFormatter();
             var ms = new MemoryStream(serializedDataBuffer);
-
+#if DEBUG
+            var result = new SocksSettings {ConfiguredAs = ConfigType.SocksServer,PortToListen = 1515};
+#else
             var result = (SocksSettings)formatter.Deserialize(ms);
-
+#endif
             return result;
         }
 

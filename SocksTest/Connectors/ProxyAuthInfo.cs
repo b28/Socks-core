@@ -1,4 +1,4 @@
-﻿namespace SocksTest.ConnectionEstablisher
+﻿namespace SocksTest.Connectors
 {
     public class ProxyAuthInfo
     {

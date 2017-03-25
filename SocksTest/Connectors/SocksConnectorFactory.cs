@@ -4,6 +4,7 @@ using SocksCore.Utils.Log;
 using SocksTest.Settings;
 using System;
 using System.Net;
+using SocksTest.TlvClientSources;
 
 namespace SocksTest.Connectors
 {
@@ -65,6 +66,7 @@ namespace SocksTest.Connectors
                         new IPEndPoint(IPAddress.Any, settings.PortToListen));
                     break;
                 case ConfigType.DirectBackConnector:
+                    clientSource = new DirectConnectionEstablisher(new IPEndPoint(IPAddress.Parse(settings.BackConnectServerIp),settings.BackConnectServerPort),new  BackConnectorIdentityFactory());
                     break;
                 case ConfigType.ProxyBackConnector:
                     break;

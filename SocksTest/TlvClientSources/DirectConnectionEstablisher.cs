@@ -31,9 +31,9 @@ namespace SocksTest.TlvClientSources
 
         private void RegisterConnection(IBackConnection connectionToRegister)
         {
-            FreeConnectionsPool.Add(connectionToRegister);
             connectionToRegister.HasDataToRead += ConnectionToRegisterOnHasDataToRead;
             connectionToRegister.Disconnected += ConnectionToRegisterDisconnected;
+            FreeConnectionsPool.Add(connectionToRegister);
         }
 
         private void ConnectionToRegisterDisconnected(object sender, BackConnection backConnection)

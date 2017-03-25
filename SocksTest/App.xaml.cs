@@ -70,29 +70,6 @@ namespace SocksTest
 
             clientSource.StartConnections();
 
-
-
-            //connectionEstablisher.Connect(new IPEndPoint(IPAddress.Parse(socksSettings.BackConnectServerIp),
-            //    socksSettings.BackConnectServerPort));
-            //var tlvClient = new TcpClientEx(connection.Client);
-
-
-            
-
-            //logger.CurrentLogLevel = Logger.LogLevel.Debug;
-
-            //core.ConnectionEstablished += CoreOnConnectionEstablished;
-            //core.Disconnected += CoreOnDisconnected;
-            //clientSource.NewTlvClientConnected += ClientSourceOnNewTlvClientConnected;
-            //try
-            //{
-            //    clientSource.BeginAcceptClients(innerEndPoint);
-            //}
-            //catch (Exception e)
-            //{
-            //    logger.Fatal(e.Message);
-            //}
-
         }
 
         private void CoreOnDisconnected(object sender, string s)

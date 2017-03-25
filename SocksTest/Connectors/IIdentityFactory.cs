@@ -8,4 +8,12 @@ namespace SocksTest.Connectors
         //IConnectBackConnectionIdentity ContextIdentity(ConnectBackConnectionIdentity identity, ConnectBackContext backContext);
         Task<IConnectBackConnectionIdentity> ConnectionIdentityFrom(TcpClient socket);
     }
+
+    public class BackConnectorIdentityFactory : IIdentityFactory
+    {
+        public Task<IConnectBackConnectionIdentity> ConnectionIdentityFrom(TcpClient socket)
+        {
+            throw new System.NotImplementedException();
+        }
+    }
 }

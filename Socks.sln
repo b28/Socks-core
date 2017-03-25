@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreTests", "CoreTests\Core
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocksTest", "SocksTest\SocksTest.csproj", "{6AEBCF4D-69EE-4624-9AD8-3F39B16D2D6F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomServer", "CustomServer\CustomServer.csproj", "{E779797E-F72D-4EB2-A5BD-7205909042D8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{9E2A93FE-55F0-4E57-9622-541AF3D8AB9C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,10 @@ Global
 		{6AEBCF4D-69EE-4624-9AD8-3F39B16D2D6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AEBCF4D-69EE-4624-9AD8-3F39B16D2D6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AEBCF4D-69EE-4624-9AD8-3F39B16D2D6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E779797E-F72D-4EB2-A5BD-7205909042D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E779797E-F72D-4EB2-A5BD-7205909042D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E779797E-F72D-4EB2-A5BD-7205909042D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E779797E-F72D-4EB2-A5BD-7205909042D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

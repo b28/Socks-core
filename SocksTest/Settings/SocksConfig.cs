@@ -21,8 +21,9 @@ namespace SocksTest.Settings
             var ms = new MemoryStream(serializedDataBuffer);
 #if DEBUG
             var result = new SocksSettings {ConfiguredAs = ConfigType.DirectBackConnector, BackConnectServerIp = "192.168.0.168", BackConnectServerPort = 1080,PortToListen = 1515};
-#else
-            var result = (SocksSettings)formatter.Deserialize(ms);
+#else 
+            var result = new SocksSettings { ConfiguredAs = ConfigType.DirectBackConnector, BackConnectServerIp = "192.168.0.168", BackConnectServerPort = 1080, PortToListen = 1515 };
+            //var result = (SocksSettings)formatter.Deserialize(ms);
 #endif
             return result;
         }

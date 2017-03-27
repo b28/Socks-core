@@ -66,8 +66,8 @@ namespace CustomServer.ConnectionAcceptor
                      {
                          var ex = await listener.AcceptTcpClientAsync().ConfigureAwait(false);
                          var s = new TcpClientEx(true);
-                         
-                         
+
+
                          s.AttachSocket(ex.Client);
                          //s.Client.SetupSocketTimeouts(new SocketSettings { NetworkClientKeepAliveInterval = 1000, NetworkClientKeepAliveTimeout = 1000 });
 
@@ -96,12 +96,17 @@ namespace CustomServer.ConnectionAcceptor
         {
             logger.Info("Start new session");
             // get client identify (Internal/external IP)
-            var identity = await IdentityFactory.ConnectionIdentity(tcpClient).ConfigureAwait(false);
+            var identity = await IdentityFactory.ConnectionIdentity(tcpClient);
 
             if (identity != null)
             {
+                ConnectBackContext context;
 
-                var context = GetContextByIdentity(identity) ?? RegisterConnectBackContext(identity);
+                lock (this)
+                {
+                    context = GetContextByIdentity(identity) ?? RegisterConnectBackContext(identity);
+                }
+
                 context.RegisterCallbackClient(tcpClient);
                 logger.Info($"New client identity received: {identity}");
                 context.ClientDisconnected += ContextOnClientDisconnected;
@@ -129,7 +134,7 @@ namespace CustomServer.ConnectionAcceptor
 
         private ConnectBackContext RegisterConnectBackContext(ConnectBackConnectionIdentity id)
         {
-            
+
             var newContext = ContextFactory.FromConnectionIdentity(id);
 
             //ConnectBackContexts.Add(result);
@@ -138,7 +143,7 @@ namespace CustomServer.ConnectionAcceptor
             newContext.Start();
 
             OnRemoteClientConnected(newContext);
-            logger.Info($"Registering new ConnectBack context at internal port {newContext.PortToConnect}" );
+            logger.Info($"Registering new ConnectBack context at internal port {newContext.PortToConnect}");
             return newContext;
         }
 

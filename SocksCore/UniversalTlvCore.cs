@@ -12,7 +12,7 @@ namespace SocksCore
         private readonly IList<TlvClientHandlerBase> registeredClientHandlers = new List<TlvClientHandlerBase>();
 
         public int ActiveConnections { get; private set; }
-        //private const byte DefaultSocksError = (byte)Socks4ErrorCodes.Error;
+        
 
         public void AcceptClientConnection(ITlvClient client /*Socket client*/)
         {
@@ -26,7 +26,15 @@ namespace SocksCore
             if (currentHandler == null)
                 throw new TlvCoreException("No registered handlers for this Packet type");
 
-            currentHandler.HandleClientRequest(client);
+            try
+            {
+                currentHandler.HandleClientRequest(client);
+            }
+            catch (ConnectionEstablisherException e)
+            {
+                logger.Error($"Can't connect to remote client {e.EndPointToConnect}");
+            }
+            
         }
 
         private static byte TlvTypeFromHeader(IBytePeeker peeker)

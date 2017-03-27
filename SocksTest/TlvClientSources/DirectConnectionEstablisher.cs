@@ -70,12 +70,10 @@ namespace SocksTest.TlvClientSources
 
             while (true)
             {
-
                 while (MustCreateBackConnection)
                 {
                     try
                     {
-
                         var newConnection = new TcpClient();
                         newConnection.Connect(backconnectorEndPoint);
                         var clientInfo = RemoteClientInfo.Get().ToByteArray();
@@ -83,16 +81,15 @@ namespace SocksTest.TlvClientSources
                         newConnection.Client.Send(clientInfo); // send identity to back server
                         var backConnection = BackConnection.From(newConnection);
                         RegisterConnection(backConnection);
-                        Task.Run(backConnection.BeginPollAsync).ConfigureAwait(false);
-
-
+                        await Task.Run(backConnection.BeginPollAsync);
                     }
                     catch (Exception e)
                     {
                         Console.WriteLine(e.ToString());
                     }
-                    Thread.Sleep(SleepInterval);
+                    
                 }
+                Thread.Sleep(SleepInterval);
             }
 
 

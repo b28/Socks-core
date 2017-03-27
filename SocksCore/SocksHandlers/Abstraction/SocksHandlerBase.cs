@@ -21,8 +21,6 @@ namespace SocksCore.SocksHandlers
             LinkedConnections.Remove(pairToRemove);
         }
 
-
-
         public event EventHandler<IConnectionIdentity> ClientDisconnected;
         public int RegisterLinkedConnection(ILinkedPairConnection connectionToRegister)
         {

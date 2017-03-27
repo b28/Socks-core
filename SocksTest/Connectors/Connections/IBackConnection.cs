@@ -14,6 +14,6 @@ namespace SocksTest.Connectors.Connections
         TcpClient Connection { get; set; }
 
         event EventHandler<BackConnection> Disconnected;
-        event EventHandler<BackConnection> OnConnected;
+        event EventHandler<BackConnection> Connected;
     }
 }

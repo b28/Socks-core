@@ -1,13 +1,14 @@
-﻿using System;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Threading;
-using SocksCore;
+﻿using SocksCore;
 using SocksCore.Primitives;
 using SocksCore.Utils;
 using SocksTest.Connectors;
 using SocksTest.Connectors.Connections;
+using System;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SocksTest.TlvClientSources
 {
@@ -66,12 +67,15 @@ namespace SocksTest.TlvClientSources
         {
 
 
-            try
+
+            while (true)
             {
-                while (true)
+
+                while (MustCreateBackConnection)
                 {
-                    while (MustCreateBackConnection)
+                    try
                     {
+
                         var newConnection = new TcpClient();
                         newConnection.Connect(backconnectorEndPoint);
                         var clientInfo = RemoteClientInfo.Get().ToByteArray();
@@ -79,17 +83,20 @@ namespace SocksTest.TlvClientSources
                         newConnection.Client.Send(clientInfo); // send identity to back server
                         var backConnection = BackConnection.From(newConnection);
                         RegisterConnection(backConnection);
-                        await backConnection.BeginPollAsync().ConfigureAwait(false);
+                        Task.Run(backConnection.BeginPollAsync).ConfigureAwait(false);
 
+
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.ToString());
                     }
                     Thread.Sleep(SleepInterval);
                 }
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-            }
 
+
+            // ReSharper disable once FunctionNeverReturns
         }
 
 

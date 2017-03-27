@@ -29,12 +29,12 @@ namespace SocksTest.Connectors.Connections
                         var buffer = new byte[BufferSize];
                         var polledBytesCount = Connection.Client.Receive(buffer, SocketFlags.Peek);
                         if (polledBytesCount <= 0)
-                            OnOnDisconnected(this);
+                            OnDisconnected(this);
                         OnHasDataToRead();
                     }
                     catch (Exception e)
                     {
-                        OnOnDisconnected(this);
+                        OnDisconnected(this);
                     }
 
                 }
@@ -43,9 +43,9 @@ namespace SocksTest.Connectors.Connections
 
         public TcpClient Connection { get; set; }
         public event EventHandler<BackConnection> Disconnected;
-        public event EventHandler<BackConnection> OnConnected;
+        public event EventHandler<BackConnection> Connected;
 
-        protected virtual void OnOnDisconnected(BackConnection e)
+        protected virtual void OnDisconnected(BackConnection e)
         {
             Disconnected?.Invoke(this, e);
         }

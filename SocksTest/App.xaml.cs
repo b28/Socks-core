@@ -1,13 +1,10 @@
 ﻿using SocksCore;
 using SocksCore.Primitives;
-using SocksCore.SocksHandlers;
 using SocksCore.SocksHandlers.Socks4;
 using SocksCore.Utils.Log;
 using SocksTest.Connectors;
 using SocksTest.Settings;
-using System;
 using System.IO;
-using System.Net;
 using System.Reflection;
 using System.Windows;
 
@@ -63,7 +60,7 @@ namespace SocksTest
                 socksSettings = configProvider.GetConfig(embeddedFile);
             }
 
-            
+
             clientSource = clientSourceFactory.GetClientSourceByConfig(socksSettings); // get proper connector
 
             clientSource.NewTlvClientConnected += ClientSourceOnNewTlvClientConnected;

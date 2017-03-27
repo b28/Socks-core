@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using EFTest.DbContext;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EFTest
 {
@@ -10,6 +8,24 @@ namespace EFTest
     {
         static void Main(string[] args)
         {
+
+        }
+
+        void InitUsers()
+        {
+            using (var db = new SqlContext())
+            {
+                Console.WriteLine($"Looking for administrative user-accounts.");
+                var manager = db.Users.FirstOrDefault(a => a.UsersRole == UsersRoles.Manager);
+                if (manager == null)
+                {
+                    Console.WriteLine($"Manager is not present. Creating.");
+                }
+                else
+                {
+
+                }
+            }
         }
     }
 }

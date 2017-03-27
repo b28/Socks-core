@@ -95,13 +95,10 @@ namespace CustomServer
             }
             catch (Exception exc)
             {
-
                 MessageBox.Show(exc.Message);
             }
 
-            //Console.ReadLine();
 
-            //Console.WriteLine("Exiting.");
         }
 
         private void SocketListenerOnRemoteClientDisconnected(object sender, ConnectBackContext connectBackContext)

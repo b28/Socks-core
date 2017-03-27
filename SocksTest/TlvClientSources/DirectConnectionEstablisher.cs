@@ -79,7 +79,7 @@ namespace SocksTest.TlvClientSources
                         newConnection.Client.Send(clientInfo); // send identity to back server
                         var backConnection = BackConnection.From(newConnection);
                         RegisterConnection(backConnection);
-                        await backConnection.BeginPollAsync();
+                        await backConnection.BeginPollAsync().ConfigureAwait(false);
 
                     }
                     Thread.Sleep(SleepInterval);

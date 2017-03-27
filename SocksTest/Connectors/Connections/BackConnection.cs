@@ -24,11 +24,19 @@ namespace SocksTest.Connectors.Connections
             await Task.Run(() =>
 
                 {
-                    var buffer = new byte[BufferSize];
-                    var polledBytesCount = Connection.Client.Receive(buffer, SocketFlags.Peek);
-                    if (polledBytesCount <= 0)
+                    try
+                    {
+                        var buffer = new byte[BufferSize];
+                        var polledBytesCount = Connection.Client.Receive(buffer, SocketFlags.Peek);
+                        if (polledBytesCount <= 0)
+                            OnOnDisconnected(this);
+                        OnHasDataToRead();
+                    }
+                    catch (Exception e)
+                    {
                         OnOnDisconnected(this);
-                    OnHasDataToRead();
+                    }
+
                 }
             ).ConfigureAwait(false);
         }
